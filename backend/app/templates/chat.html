@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p><a href="/ui">&larr; All chats</a></p>
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">{{ chat.source|title }} conversation</p>
+    <h1>{{ chat.title }}</h1>
+  </div>
+  <div class="actions">
+    <a class="button secondary" href="/ui/chats/{{ chat.id }}/export?format=md">Markdown</a>
+    <a class="button secondary" href="/ui/chats/{{ chat.id }}/export?format=txt">Text</a>
+    <a class="button secondary" href="/ui/chats/{{ chat.id }}/export?format=json">JSON</a>
+  </div>
+</section>
+
+<section class="messages" aria-label="Conversation messages">
+  {% for message in chat.messages %}
+  <article class="message message-{{ message.role }}">
+    <h2>{{ "You" if message.role == "user" else "Assistant" }}</h2>
+    <div class="message-content">{{ message.content }}</div>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="panel">
+  <h2>Continue on another assistant</h2>
+  <p class="muted">ChatBridge builds a handoff prompt. Copy it from the box below and paste it into the assistant yourself.</p>
+  <form action="/ui/chats/{{ chat.id }}/handoff" method="post" class="stack">
+    <label for="target">Destination</label>
+    <select id="target" name="target" required>
+      <option value="chatgpt">ChatGPT</option>
+      <option value="claude">Claude</option>
+      <option value="gemini">Gemini</option>
+    </select>
+    <label for="next-message">Next message (optional)</label>
+    <textarea id="next-message" name="next_message" rows="3" maxlength="5000" placeholder="What should the next assistant do?"></textarea>
+    <button class="button" type="submit">Prepare handoff</button>
+  </form>
+  {% if handoff %}
+  <div class="handoff-result">
+    <p>Context prepared from {{ handoff.kept }} messages; {{ handoff.summarized }} earlier messages summarized.</p>
+    <p><a class="button secondary" href="{{ handoff.url }}" target="_blank" rel="noopener noreferrer">Open destination</a></p>
+    <label for="handoff-prompt">Select and copy this prompt</label>
+    <textarea id="handoff-prompt" rows="18" readonly>{{ handoff.prompt }}</textarea>
+  </div>
+  {% endif %}
+</section>
+
+<form action="/ui/chats/{{ chat.id }}/delete" method="post" class="delete-form">
+  <button class="link-button danger" type="submit">Delete this conversation</button>
+</form>
+{% endblock %}

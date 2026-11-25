@@ -1,27 +1,20 @@
 # ChatBridge project notes
 
 ## Purpose
-Save AI chats and continue them on another AI. Never bypass limits.
+Save AI chats and continue them on another AI. Never bypass limits or send messages on a user's behalf.
 
 ## Stack
-Chrome MV3 extension, FastAPI, SQLAlchemy (SQLite), React/Vite.
+Python, FastAPI, SQLAlchemy, SQLite, and server-rendered HTML templates. The web interface has no client-side JavaScript.
 
 ## Rules
-- Filter every query by user; other users get 404.
+- Filter every conversation query by user; other users receive 404.
 - Never replace a conversation with a shorter copy.
-- Injector never presses Send.
-- Secrets only in environment variables.
+- Keep secrets in environment variables.
+- Conversation capture is manual through imports or pasted transcripts; there is no browser extension.
 
-## Done
-- Database models, auth, sync, chats, handoff
-- Import (ChatGPT, Claude, ChatBridge backup) and export
-- React web app: login, dashboard, chat, continue, import
-- Chrome extension: capture, popup, injector with clipboard and dispatchEvent fallback
-- Robust hostname matching & selectors for ChatGPT, Claude, and Gemini
-- Improved popup UI with clear login errors, active account indicator, and logout support
-- All backend tests passing (7/7 in test_import and test_sync)
-
-## Known issues / Next steps
-- Verify selectors live against the latest frontend changes of ChatGPT, Claude, and Gemini
-- Summariser uses a text fallback unless ANTHROPIC_API_KEY is set (support Gemini/OpenAI keys as options)
-- ML role classifier is not built
+## Features
+- Email verification sign-in
+- Search, filter, and sort saved conversations
+- Import ChatGPT, Claude, and ChatBridge exports, or paste a transcript
+- Export conversations as Markdown, plain text, or JSON
+- Prepare a handoff prompt to copy and paste into another assistant

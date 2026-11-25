@@ -52,23 +52,23 @@ DEFAULT_SEEDED_CHATS = [
     {
         "source": "gemini",
         "external_id": "seed-gemini-viz-03",
-        "title": "Data Visualization & Telemetry Dashboard in React",
+        "title": "Data Visualization & Telemetry Dashboard in Python",
         "messages": [
             {
                 "role": "user",
-                "content": "What are best practices for building real-time telemetry dashboards in React with SVG charts?",
+                "content": "What are practical ways to build a telemetry dashboard in Python?",
             },
             {
                 "role": "assistant",
-                "content": "When building real-time telemetry dashboards in React, performance depends on preventing unnecessary DOM re-renders:\n\n1. Decouple Stream Updates from UI: Buffer incoming telemetry data (e.g. at 60Hz) and throttle updates at 10-15Hz using requestAnimationFrame.\n2. Canvas vs. SVG: For under ~500 points, SVG offers declarative styling and sharp scaling. For dense data (>5,000 points), prefer HTML5 Canvas or WebGL.\n3. Virtualization: Render only the active time window.\n4. Memoization: Memoize chart subcomponents with React.memo and path string generators using useMemo.",
+                "content": "For a Python dashboard, keep data collection separate from presentation:\n\n1. Store incoming measurements in a database or a bounded queue.\n2. Aggregate readings before rendering so the page stays responsive.\n3. Use server-rendered HTML for simple dashboards, or generate charts with Matplotlib or Plotly.\n4. Cache expensive queries and refresh summaries at a measured interval.",
             },
             {
                 "role": "user",
-                "content": "Could you provide a clean SVG sparkline component example?",
+                "content": "Could you provide a Python function that normalizes values for a sparkline?",
             },
             {
                 "role": "assistant",
-                "content": "Here is a concise React SVG Sparkline component with coordinate normalization:\n\n```jsx\nexport function Sparkline({ data, width = 120, height = 30, color = '#c45c26' }) {\n  if (!data || data.length < 2) return null;\n  const min = Math.min(...data);\n  const max = Math.max(...data);\n  const range = max - min || 1;\n  const pts = data.map((v, i) => {\n    const x = (i / (data.length - 1)) * width;\n    const y = height - ((v - min) / range) * height;\n    return `${x},${y}`;\n  }).join(' ');\n  return (\n    <svg width={width} height={height} style={{ overflow: 'visible' }}>\n      <polyline fill=\"none\" stroke={color} strokeWidth=\"2\" strokeLinecap=\"round\" points={pts} />\n    </svg>\n  );\n}\n```",
+                "content": "```python\ndef normalize(values):\n    if not values:\n        return []\n    low, high = min(values), max(values)\n    span = high - low or 1\n    return [(value - low) / span for value in values]\n```",
             },
         ],
     },

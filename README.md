@@ -1,16 +1,10 @@
 # ChatBridge
 
-Save AI chats and continue them on another assistant when one hits its usage limit. ChatBridge does **not** bypass limits and never presses Send.
+ChatBridge saves AI conversations so you can review, export, and continue them with another assistant. It does **not** bypass usage limits or send messages on your behalf.
 
-## Parts
-
-- **Website** (React): register, browse chats, continue with a copied handoff prompt, import/export
-- **API** (FastAPI + SQLite): auth, sync, chats, handoff, import, export
-- **Chrome extension**: capture chats on ChatGPT / Claude / Gemini and fill the next AI’s box (you still send)
+The application is implemented in Python with FastAPI, SQLAlchemy, and server-rendered HTML templates. It contains no client-side JavaScript. Browser-extension capture has been removed; import conversations from ChatGPT, Claude, or a ChatBridge backup, or paste a transcript.
 
 ## Run locally
-
-### 1. Backend
 
 ```powershell
 cd backend
@@ -21,24 +15,9 @@ copy ..\.env.example ..\.env
 uvicorn app.main:app --reload
 ```
 
-API docs: http://127.0.0.1:8000/docs
+Open http://127.0.0.1:8000 to sign in by email verification code. API documentation is available at http://127.0.0.1:8000/docs.
 
-### 2. Website
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Open http://localhost:5173 — register an account, click **Add sample chat**, then **Continue**.
-
-### 3. Extension (optional)
-
-1. Open `chrome://extensions`
-2. Turn on Developer mode
-3. Load unpacked → choose the `extension` folder
-4. Log in with the same account as the website
+If SMTP is not configured, the development verification code is written to the server log. Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, and `SMTP_PASSWORD` to send codes by email.
 
 ## Tests
 
@@ -47,3 +26,14 @@ cd backend
 .\.venv\Scripts\activate
 pytest
 ```
+
+## Deployment
+
+Build and run the Python-only container with Docker:
+
+```powershell
+docker build -t chatbridge .
+docker run -p 8000:8000 -e JWT_SECRET="replace-with-a-long-random-secret" chatbridge
+```
+
+Set `DATABASE_URL` to use a persistent or managed database in production.

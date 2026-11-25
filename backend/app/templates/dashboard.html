@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">YOUR LIBRARY</p>
+    <h1>Saved conversations</h1>
+  </div>
+  <a class="button" href="/ui/import">Import chats</a>
+</div>
+
+<form class="filters" action="/ui" method="get">
+  <label>
+    Search
+    <input type="search" name="q" value="{{ q }}" placeholder="Search titles">
+  </label>
+  <label>
+    Source
+    <select name="source">
+      <option value="all" {% if source == "all" %}selected{% endif %}>All sources</option>
+      {% for item in sources %}
+      <option value="{{ item }}" {% if source == item %}selected{% endif %}>{{ item|title }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>
+    Sort
+    <select name="sort">
+      <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest</option>
+      <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Oldest</option>
+      <option value="messages" {% if sort == "messages" %}selected{% endif %}>Most messages</option>
+      <option value="title" {% if sort == "title" %}selected{% endif %}>Title</option>
+    </select>
+  </label>
+  <button class="button" type="submit">Apply</button>
+  <a class="button secondary" href="/ui">Clear</a>
+</form>
+
+{% if chats %}
+<div class="chat-list">
+  {% for chat in chats %}
+  <article class="chat-card">
+    <div>
+      <span class="badge">{{ chat.source|title }}</span>
+      {% if chat.has_images %}<span class="badge">Attachments</span>{% endif %}
+      <h2><a href="/ui/chats/{{ chat.id }}">{{ chat.title }}</a></h2>
+      <p class="muted">{{ chat.messages }} messages · Updated {{ chat.updated_at.strftime("%b %d, %Y") }}</p>
+    </div>
+    <a class="button secondary" href="/ui/chats/{{ chat.id }}">Open</a>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<section class="empty-state">
+  <h2>No saved conversations yet</h2>
+  <p>Import an export from ChatGPT, Claude, or ChatBridge, or paste a transcript below.</p>
+  <a class="button" href="/ui/import">Import a conversation</a>
+</section>
+{% endif %}
+{% endblock %}

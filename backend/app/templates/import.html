@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p><a href="/ui">&larr; All chats</a></p>
+<h1>Import conversations</h1>
+<p class="muted">Browser capture is not available in this Python-only version. Import a platform export or paste a transcript.</p>
+
+<section class="panel">
+  <h2>Upload an export</h2>
+  <p>ChatGPT, Claude, and ChatBridge JSON exports are supported. ZIP exports containing <code>conversations.json</code> are accepted. You can choose which conversations to import.</p>
+  <form action="/ui/import/preview" method="post" enctype="multipart/form-data" class="stack">
+    <label for="platform">Export format</label>
+    <select id="platform" name="platform">
+      <option value="chatgpt">ChatGPT</option>
+      <option value="claude">Claude</option>
+      <option value="chatbridge">ChatBridge backup</option>
+    </select>
+    <label for="file">Export file</label>
+    <input id="file" name="file" type="file" accept=".zip,.json" required>
+    <button class="button" type="submit">Preview conversations</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Paste a conversation</h2>
+  <form action="/ui/import/paste" method="post" class="stack">
+    <label for="title">Conversation title</label>
+    <input id="title" name="title" maxlength="200" required>
+    <label for="source">Source</label>
+    <select id="source" name="source">
+      <option value="chatgpt">ChatGPT</option>
+      <option value="claude">Claude</option>
+      <option value="gemini">Gemini</option>
+    </select>
+    <label for="content">Transcript or JSON messages</label>
+    <textarea id="content" name="content" rows="12" maxlength="500000" required></textarea>
+    <button class="button" type="submit">Save conversation</button>
+  </form>
+</section>
+{% endblock %}

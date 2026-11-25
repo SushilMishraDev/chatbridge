@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p><a href="/ui/import">&larr; Import another file</a></p>
+<h1>Choose conversations</h1>
+<p class="muted">{{ items|length }} conversations found in {{ filename }}. Select the ones to import.</p>
+<form action="/ui/import/file" method="post" enctype="multipart/form-data" class="stack">
+  <input type="hidden" name="platform" value="{{ platform }}">
+  <div class="conversation-options">
+    {% for item in items %}
+    <label class="conversation-option">
+      <input type="checkbox" name="selected" value="{{ item.external_id }}" checked>
+      <span><strong>{{ item.title }}</strong><br><span class="muted">{{ item.messages|length }} messages</span></span>
+    </label>
+    {% endfor %}
+  </div>
+  <p class="muted">For privacy, select the same export file again to confirm your selection.</p>
+  <label for="file">Re-select export file</label>
+  <input id="file" name="file" type="file" accept=".zip,.json" required>
+  <button class="button" type="submit">Import selected conversations</button>
+</form>
+{% endblock %}

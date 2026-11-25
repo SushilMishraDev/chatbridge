@@ -1,7 +1,4 @@
-import time
-import urllib.parse
-from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -19,9 +16,6 @@ TARGETS = {  # public start pages; sites change their URLs
     "claude": "https://claude.ai/new",
     "gemini": "https://gemini.google.com/app",
 }
-
-# Cache recent handoffs in-memory so the extension or external tabs can retrieve them
-RECENT_HANDOFFS = {}
 
 
 @router.post("/handoff")
@@ -47,54 +41,12 @@ def handoff(
     # Target URLs for all 3 AI platforms
     target_url = TARGETS[body.target]
 
-    # Store in memory for extension direct retrieval (valid for 30 minutes)
-    payload = {
+    return {
         "prompt": prompt,
         "next_message": body.next_message or "Please continue our conversation from where we stopped.",
         "messages": kept,
         "url": target_url,
-        "target": body.target,
-        "timestamp": time.time(),
-        "conversation_id": body.conversation_id,
-        "title": convo.title,
-    }
-    RECENT_HANDOFFS[body.target] = payload
-    RECENT_HANDOFFS["latest"] = payload
-
-    return {
-        "prompt": prompt,
-        "next_message": payload["next_message"],
-        "messages": kept,
-        "url": target_url,
         "kept": len(kept),
         "summarized": len(dropped),
-    }
-
-
-@router.get("/handoff/latest")
-def get_latest_handoff(target: Optional[str] = Query(None)):
-    """Allows the Chrome extension to query the most recently generated handoff prompt
-
-    even across isolated tabs, without requiring local DOM message passing.
-    """
-    key = target if (target and target in RECENT_HANDOFFS) else "latest"
-    handoff_data = RECENT_HANDOFFS.get(key)
-    if not handoff_data and "latest" in RECENT_HANDOFFS:
-        handoff_data = RECENT_HANDOFFS.get("latest")
-    if not handoff_data:
-        return {"prompt": None}
-
-    # Expire after 30 minutes
-    if time.time() - handoff_data.get("timestamp", 0) > 1800:
-        return {"prompt": None, "expired": True}
-
-    return {
-        "prompt": handoff_data.get("prompt"),
-        "next_message": handoff_data.get("next_message"),
-        "messages": handoff_data.get("messages", []),
-        "url": handoff_data.get("url"),
-        "target": handoff_data.get("target"),
-        "title": handoff_data.get("title"),
-        "timestamp": handoff_data.get("timestamp"),
     }
 

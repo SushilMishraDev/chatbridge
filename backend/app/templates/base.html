@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} - ChatBridge</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/ui">ChatBridge</a>
+      {% if user_email %}
+      <nav aria-label="Main navigation">
+        <a href="/ui">Chats</a>
+        <a href="/ui/import">Import</a>
+        <a href="/ui/export">Export all</a>
+        <span class="user-email">{{ user_email }}</span>
+        <form action="/ui/logout" method="post">
+          <button class="link-button" type="submit">Sign out</button>
+        </form>
+      </nav>
+      {% endif %}
+    </header>
+    <main class="container">
+      {% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
+      {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">ChatBridge stores your chats so you can continue them elsewhere.</footer>
+  </body>
+</html>

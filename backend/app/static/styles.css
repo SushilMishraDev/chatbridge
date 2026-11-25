@@ -1,0 +1,300 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #24211d;
+  background: #f5f3ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: #8b451f;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem max(1.25rem, calc((100% - 1040px) / 2));
+  background: #fff;
+  border-bottom: 1px solid #e4dfd6;
+}
+
+.brand {
+  color: #24211d;
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav,
+nav form,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav a,
+.link-button {
+  color: #5e554a;
+  text-decoration: none;
+}
+
+.user-email,
+.muted {
+  color: #736b61;
+  font-size: 0.9rem;
+}
+
+.container {
+  width: min(1040px, calc(100% - 2rem));
+  min-height: calc(100vh - 130px);
+  margin: 2rem auto;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0.4rem;
+  font-family: Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.eyebrow {
+  margin-bottom: 0.45rem;
+  color: #8b451f;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.button,
+button {
+  display: inline-block;
+  width: fit-content;
+  border: 1px solid #8b451f;
+  border-radius: 7px;
+  padding: 0.65rem 0.9rem;
+  color: #fff;
+  background: #8b451f;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button.secondary {
+  color: #5b3b28;
+  background: #fff;
+  border-color: #d7c8b7;
+}
+
+.filters,
+.panel,
+.auth-card,
+.empty-state,
+.chat-card,
+.message {
+  border: 1px solid #e4dfd6;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  color: #4a433a;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #d6d0c7;
+  border-radius: 7px;
+  padding: 0.7rem;
+  color: inherit;
+  background: #fff;
+  font: inherit;
+}
+
+.filters input,
+.filters select {
+  min-width: 150px;
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.chat-list,
+.stack,
+.messages {
+  display: grid;
+  gap: 1rem;
+}
+
+.conversation-options {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.conversation-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border: 1px solid #e4dfd6;
+  border-radius: 8px;
+  padding: 0.8rem;
+}
+
+.conversation-option input {
+  width: auto;
+  margin-top: 0.2rem;
+}
+
+.chat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.chat-card h2 {
+  margin: 0.55rem 0;
+  font-size: 1.15rem;
+}
+
+.chat-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.chat-card p {
+  margin-bottom: 0;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  color: #664326;
+  background: #f5eadc;
+  font-size: 0.75rem;
+}
+
+.empty-state,
+.panel,
+.auth-card {
+  margin: 1rem 0;
+  padding: 1.4rem;
+}
+
+.auth-card {
+  max-width: 480px;
+  margin: 4rem auto;
+}
+
+.notice,
+.error {
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+}
+
+.notice {
+  color: #245537;
+  background: #e6f4ea;
+}
+
+.error {
+  color: #7d2424;
+  background: #fbe9e7;
+}
+
+.message {
+  padding: 1rem 1.2rem;
+}
+
+.message h2 {
+  font-size: 0.9rem;
+}
+
+.message-content {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.handoff-result {
+  margin-top: 1.5rem;
+}
+
+.delete-form {
+  margin: 2rem 0;
+}
+
+.link-button {
+  border: 0;
+  padding: 0;
+  color: #5e554a;
+  background: transparent;
+  cursor: pointer;
+}
+
+.danger {
+  color: #a32626;
+}
+
+.footer {
+  padding: 1.5rem;
+  color: #736b61;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .topbar,
+  .page-heading,
+  .chat-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+}
