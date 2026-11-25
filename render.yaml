@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: chatbridge
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 8000
